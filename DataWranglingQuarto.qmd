@@ -6,4 +6,95 @@ format:
 editor: visual
 ---
 
-## 
+# Activity 6: Data wrangling 1: rows and columns
+
+## 1.1 Introducing tidyverse and the pipeline
+
+Begin by loading packages
+
+```{r}
+## Load packages from library
+library("tidyverse")
+library(here)
+```
+
+Starting with a vector and stringing multiple functions with the pipeline:
+
+```{r}
+#| output: true
+
+#Create vector
+fruits <- c("apple", "apple", "orange", "orange", "banana")
+
+#Find unique values
+unique(fruits)
+```
+
+If I am wanting to apply the length function to this vector, I can either:
+
+```{r}
+#| output: true
+
+# 1) Nest the unique function within the length function
+length(unique(fruits))
+```
+
+```{r}
+#| output: true
+
+# 2) Create intermediate data objects
+unique.fruits <- unique(fruits)
+length(unique.fruits)
+```
+
+OR, I can use the pipeline here:
+
+```{r}
+#| output: true
+
+#This :
+fruits %>% unique()
+
+#is equivalent to this:
+unique(fruits)
+```
+
+And you can pipe together multiple:
+
+```{r}
+#| output: true
+
+# Piping!
+fruits %>% unique() %>% length()
+
+#Can be spread across multiple lines
+fruits %>% 
+  unique() %>% 
+  length()
+
+```
+
+## 1.2 Import data, apply the pipeline
+
+Import data:
+
+```{r}
+# Import the data
+cereal <- read_csv(here("cereal.csv"))
+
+# Take a look at the first six rows
+head(cereal)
+```
+
+We can use the pipeline to extract many things at once:
+
+```{r}
+#| output: true
+
+# Start with the cereal dataframe
+cereal %>%
+  # This line extracts the column names from the dataframe input and creates a vector
+  colnames() %>% 
+  # This line calculates the "length" (the number) of those names from the vector input
+  length()
+```
