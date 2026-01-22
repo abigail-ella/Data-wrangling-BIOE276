@@ -221,3 +221,89 @@ cereal_nutrition <- cereal %>%
 
 head(cereal_nutrition)
 ```
+
+## 1.7 `arrange()` your rows by value
+
+Using the arrange function to sort our dataframe. First numerically:
+
+```{r}
+#| output: true
+cereal %>% 
+  arrange(calories)
+```
+
+```{r}
+#| output: true
+cereal %>% 
+  # The desc() reverses the order, making it highest to lowest
+  arrange(desc(calories))
+```
+
+Now alphabetically:
+
+```{r}
+#| output: true
+cereal %>% 
+  arrange(mfr, calories)
+```
+
+## 1.8 `mutate()` columns: add or edit them
+
+Learning more about the mutate function by mutating the sugars column:
+
+```{r}
+#| output: true
+#Create new df
+cereal_carbs <- cereal %>% 
+  # Select just the name, carbs, and sugars columns, and store it as a new data object called cereal_carbs
+  select(name, carbo, sugars)
+
+#New sugars column
+cereal_carbs %>% 
+  # in this case, the new sugars_total column is going to be 2 times the sugars column
+  mutate(sugars_total = sugars*2)
+```
+
+```{r}
+#| output: true
+#Use existing column name 
+cereal_carbs %>% 
+  mutate(sugars = sugars*2)
+```
+
+```{r}
+#| output: true
+# Check that the original cereal_carbs data is unaltered
+cereal_carbs
+```
+
+New column equal to sugars + milk
+
+```{r}
+cereal_carbs %>% 
+  mutate(sugars_with_milk = sugars + 5)
+```
+
+If we want to add multtiple at once we can either
+
+```{r}
+#1 Usse two mutate functions in a row
+cereal_carbs %>% 
+  mutate(total_carbs = carbo + sugars) %>% 
+  mutate(sugars_with_milk = sugars + 5)
+```
+
+```{r}
+#2 Or separate the two equations within the one mutate function with commas
+cereal_carbs %>% 
+  mutate(total_carbs = carbo + sugars,
+         sugars_with_milk = sugars + 5)
+```
+
+# 2. Bison!
+
+Uploading packages
+
+```{r}
+library(lterdatasampler)
+```
