@@ -132,3 +132,92 @@ cereal_sugar <- cereal %>%
 ```
 
 ## 1.4 `rename()` columns
+
+Learning to rename columns with rename:
+
+```{r}
+#| output: true
+cereal_sugar %>% 
+  # Rename the mfr column to a more informative manufacturer
+  rename(manufacturer = mfr)
+
+#Rename multiple columns
+cereal_sugar %>% 
+  rename(manufacturer = mfr,
+         cereal_name = name)
+```
+
+## 1.5 `relocate()` columns
+
+Relocate where columns are in the data frame:
+
+```{r}
+#| output: true
+#Moving manufacturer before cereal name
+cereal_sugar %>% 
+  relocate(mfr, .before = name)
+
+```
+
+## 1.6. `filter()` for certain rows
+
+Filter gives certain rows based on specified conditions:
+
+```{r}
+#| output: true
+#Filtering for those with >12 grams of sugar
+cereal_sugar %>% 
+  filter(sugars > 12)
+```
+
+```{r}
+#filtering for kellogs cereals
+cereal_sugar %>% 
+  filter(mfr == "Kelloggs")
+```
+
+### Q1.2 Filter for Kelloggs AND sugars \> 12
+
+Filter the dataframe to return rows where the manufacturer is Kelloggs AND the sugars are greater than 12, all within the same filter function:
+
+```{r}
+#| output: true
+#Filtering for both >12 and for Kellogs
+cereal_sugar %>% 
+  filter(mfr == "Kelloggs" & sugars > 12)
+```
+
+### Q1.3 Select and then filter using pipelines
+
+Now we will look at how the %\>% operator can be particularly helpful. Say we want to select certain columns and THEN filter that data.
+
+Using what you learned about stringing together functions in sections 1.1 and 1.2:
+
+1.  Take the cereal dataframe and select the name, fat, and potassium columns
+
+2.  Then filter that output to return rows where potassium is less than 30
+
+You should string together two functions with two pipelines here.
+
+```{r}
+#| output: true
+#Filtering cereal df
+cereal_K <- cereal %>% 
+  select(name, fat, potass) %>% 
+  filter(potass < 30)
+
+head(cereal_K)
+```
+
+### Q1.4 Yet another select/filter challenge
+
+```{r}
+#| output: true
+#Filtering cereal df
+cereal_nutrition <- cereal %>% 
+  filter(calories> 120) %>% 
+  select(name, fiber, fat, sodium)
+ 
+
+head(cereal_nutrition)
+```
