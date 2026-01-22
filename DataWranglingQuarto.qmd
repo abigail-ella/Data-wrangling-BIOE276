@@ -98,3 +98,37 @@ cereal %>%
   # This line calculates the "length" (the number) of those names from the vector input
   length()
 ```
+
+## 1.3 `select()` columns
+
+Selecting columns from cereal:
+
+```{r}
+cereal %>% 
+  select(name, calories, fiber)
+```
+
+```{r}
+#Storing as new object
+cereal_fiber <- cereal %>% 
+  select(name, calories, fiber)
+
+```
+
+```{r}
+#Excluding certain columns
+cereal %>% 
+  select(-name, -mfr)
+```
+
+### Q1.1: Create a new dataframe with `select()`
+
+```{r}
+#| output: true
+
+#Creating a new df 
+cereal_sugar <- cereal %>% 
+  select(name, mfr, sugars) #selecting name, manufacturer, and sugar per serving
+```
+
+## 1.4 `rename()` columns
