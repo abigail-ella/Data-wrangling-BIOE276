@@ -307,3 +307,65 @@ Uploading packages
 ```{r}
 library(lterdatasampler)
 ```
+
+```{r}
+#Naming data
+bison <- (knz_bison)
+
+#Summary df
+summary(bison)
+```
+
+## Q2.1 Add new columns
+
+```{r}
+#Age and weight of bison col
+bison_age <- bison %>% 
+  mutate(age = rec_year - animal_yob,
+         animal_weight_kg = animal_weight * 0.454)
+```
+
+## Q2.2 Write a research question
+
+Has age structure changed over time in this bison population and is there any difference in shift in males vs females?
+
+## Q2.3 Make a graph and interpret it to answer your question
+
+```{r}
+#Combine year month and day of record
+bison_age <- bison_age %>% 
+  mutate(date = make_date(rec_year, rec_month, rec_day))
+  
+#get summary data of ages in time
+summary_stat_age <- bison_age %>% 
+  group_by(rec_year, animal_sex) %>% 
+  summarise(
+    mean_age = mean(age, na.rm = TRUE),
+    median_age = median(age, na.rm = TRUE),
+    .groups = "drop"
+  ) 
+```
+
+```{r}
+ggplot(summary_stat_age, aes(x = rec_year, y = mean_age, color = animal_sex)) +
+  geom_line(linewidth = 1.2) +
+  scale_color_manual(values = c("F" = "#8AF1FE", "M" = "#301934")) +
+  labs(x = "Year",
+       y = "Mean Age",
+       color = "Sex") +
+  theme_classic()
+
+ggplot(summary_stat_age, aes(x = rec_year, y = median_age, color = animal_sex)) +
+  geom_line(linewidth = 1.2) +
+  scale_color_manual(values = c("F" = "#8AF1FE", "M" = "#301934")) +
+  labs(x = "Year",
+       y = "Median Age",
+       color = "Sex") +
+  theme_classic()
+```
+
+1\) This graph shows that the average age of males versus females is quite different. Females tend to live, on average 2-3 years longer than males. However, this graph also shows that variability in age has also seemingly decreased over time, where there used to be more variation in average age from year to year and now there seems to be less variability both within males and females. This stability within average age might suggest more stability within the population itself or a movement toward equilibrium.
+
+2\) I would be more curious about this population and the various pressures it may be facing. Is this population becoming more stable as a healthy, growing population? Or is there a movement toward a stable age because of other selective causes?
+
+## Q2.4 Export the graph
