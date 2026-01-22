@@ -1,0 +1,9 @@
+---
+title: "Data Wrangling BIOE 276 Assignment 1"
+author: "Ward, A"
+format: 
+  pdf: default
+editor: visual
+---
+
+## 
