@@ -332,6 +332,7 @@ Has age structure changed over time in this bison population and is there any di
 ## Q2.3 Make a graph and interpret it to answer your question
 
 ```{r}
+#| output: true
 #Combine year month and day of record
 bison_age <- bison_age %>% 
   mutate(date = make_date(rec_year, rec_month, rec_day))
@@ -347,13 +348,16 @@ summary_stat_age <- bison_age %>%
 ```
 
 ```{r}
-ggplot(summary_stat_age, aes(x = rec_year, y = mean_age, color = animal_sex)) +
+#| output: true
+bison_mean <- ggplot(summary_stat_age, aes(x = rec_year, y = mean_age, color = animal_sex)) +
   geom_line(linewidth = 1.2) +
   scale_color_manual(values = c("F" = "#8AF1FE", "M" = "#301934")) +
   labs(x = "Year",
        y = "Mean Age",
        color = "Sex") +
   theme_classic()
+
+bison_mean
 
 ggplot(summary_stat_age, aes(x = rec_year, y = median_age, color = animal_sex)) +
   geom_line(linewidth = 1.2) +
@@ -369,3 +373,11 @@ ggplot(summary_stat_age, aes(x = rec_year, y = median_age, color = animal_sex)) 
 2\) I would be more curious about this population and the various pressures it may be facing. Is this population becoming more stable as a healthy, growing population? Or is there a movement toward a stable age because of other selective causes?
 
 ## Q2.4 Export the graph
+
+```{r}
+ggsave(file = "bison_mean.jpeg", 
+       plot = bison_mean,
+       width = 7,
+       height = 4,
+       dpi = 700)
+```
